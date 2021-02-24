@@ -7,5 +7,21 @@
 </head>
 <body>
     <h1>Список юзеров</h1>
+    <script>
+        async function GetUsers() {
+            const responce = await fetch("api/users", { method: "GET", headers: { "Accept": "application/json" } })
+            if (responce.ok === true) {
+                const users = await responce.json()
+                if (users !== null) {
+                    document.write("Получилось")
+                    "<h1>TEST LOL</h1>"
+                }
+                else {
+                    document.write("Не получилось")
+                }
+            }
+        }
+        GetUsers()
+    </script>
 </body>
 </html>
