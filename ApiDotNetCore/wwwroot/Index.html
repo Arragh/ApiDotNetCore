@@ -9,16 +9,20 @@
     <h1>Список юзеров</h1>
     <script>
         async function GetUsers() {
-            const responce = await fetch("api/users", { method: "GET", headers: { "Accept": "application/json" } })
+            const responce = await fetch('api/users', { method: 'GET', headers: { 'Accept': "application/json" } })
             if (responce.ok === true) {
                 const users = await responce.json()
                 if (users !== null) {
-                    document.write("Получилось")
-                    "<h1>TEST LOL</h1>"
+                    document.write('<table border=1>')
+                    for (let i in users) {
+                        document.write('<tr><td>' + users[i].userid + '</td><td>' + users[i].firstname + '</td><td>' + users[i].lastname + '</td><td>' + users[i].age + '</td></tr>')
+                    }
+                    document.write('</table>')
                 }
                 else {
                     document.write("Не получилось")
                 }
+                console.log(users)
             }
         }
         GetUsers()
