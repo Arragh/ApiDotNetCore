@@ -9,7 +9,7 @@
     <h1>Список юзеров</h1>
     <script>
         async function GetUsers() {
-            const responce = await fetch('api/users', { method: 'GET', headers: { 'Accept': "application/json" } })
+            const responce = await fetch('api/users', { method: 'GET', headers: { 'Accept': "application/json", 'Content-Type': 'application/json' } })
             if (responce.ok === true) {
                 const users = await responce.json()
                 if (users !== null) {

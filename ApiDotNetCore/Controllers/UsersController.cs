@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 
 namespace ApiDotNetCore.Controllers
 {
@@ -24,7 +23,7 @@ namespace ApiDotNetCore.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<User>> Get() => repository.Users.ToList(); //JsonSerializer.Serialize(repository.Users); //ActionResult<IEnumerable<User>>
+        public ActionResult<IEnumerable<User>> Get() => repository.Users.ToList();
 
         // GET api/users/5
         [HttpGet("{userId}")]
