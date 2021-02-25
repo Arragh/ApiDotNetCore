@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ApiDotNetCore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] //или так [Route("api/[controller]/[action]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -24,6 +24,9 @@ namespace ApiDotNetCore.Controllers
 
         [HttpGet]
         public ActionResult<IEnumerable<User>> Get() => repository.Users.ToList();
+
+        [HttpGet("search/{nameContains}")] // Метод будет доступен по пути localhost:XXXX/api/users/search/{nameContains}
+        public ActionResult<IEnumerable<User>> SearchUser(string nameContains) => repository.Users.Where(u => u.FirstName.ToLower().Contains(nameContains)).ToList();
 
         // GET api/users/5
         [HttpGet("{userId}")]
