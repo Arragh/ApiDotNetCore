@@ -1,5 +1,6 @@
 ﻿using ApiDotNetCore.Models;
 using ApiDotNetCore.Models.ContextModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace ApiDotNetCore.Controllers
             }
         }
 
+        //[NonAction] // делает метод недоступным из вне
         [HttpGet]
         public ActionResult<IEnumerable<User>> Get() => repository.Users.ToList();
 
@@ -54,7 +56,7 @@ namespace ApiDotNetCore.Controllers
 
         // PUT api/users
         [HttpPut]
-        public ActionResult Put(User user)
+        public ActionResult Put([FromBody]User user)
         {
             if (repository.GetUser(user.UserId) != null)
             {

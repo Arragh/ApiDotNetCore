@@ -15,6 +15,7 @@ namespace ApiDotNetCore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers();
             services.AddDbContext<UsersContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ApiDotNetCoreDB")));
             services.AddTransient<IUsersRepository, EFUsersRepository>();
@@ -31,6 +32,7 @@ namespace ApiDotNetCore
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
             app.UseEndpoints(endpoints =>
             {
