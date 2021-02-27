@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using VueCliMiddleware;
 
 namespace ApiDotNetCore
 {
@@ -15,13 +16,16 @@ namespace ApiDotNetCore
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            //services.AddCors(); // Нужен для подключения api-клиентов с других адресов
             services.AddControllers();
             services.AddDbContext<UsersContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ApiDotNetCoreDB")));
             services.AddTransient<IUsersRepository, EFUsersRepository>();
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp";
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -29,14 +33,34 @@ namespace ApiDotNetCore
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
+            //app.UseDefaultFiles();
+            //app.UseStaticFiles();
             app.UseRouting();
-            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+            app.UseSpaStaticFiles();
+            //app.UseCors(builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()); // Нужен для подключения api-клиентов с других адресов
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSpa(spa =>
+            {
+                if (env.IsDevelopment())
+                {
+                    spa.Options.SourcePath = "ClientApp/";
+                    spa.UseVueCli(npmScript: "serve");
+                }
+                else
+                {
+                    spa.Options.SourcePath = "dist";
+                }
+
+                //if (env.IsDevelopment())
+                //{
+                //    spa.UseVueCli(npmScript: "serve");
+                //}
+
             });
         }
     }
