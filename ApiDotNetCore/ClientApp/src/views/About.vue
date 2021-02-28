@@ -1,10 +1,10 @@
 <template>
   <table border="1" align="center">
-    <tr v-for="forecast of forecasts" v-bind:key="forecast">
-                <td>{{ forecast.userId }}</td>
-                <td>{{ forecast.firstName }}</td>
-                <td>{{ forecast.lastName }}</td>
-                <td>{{ forecast.age }}</td>
+    <tr v-for="user of users" v-bind:key="user">
+                <td>{{ user.userId }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.age }}</td>
             </tr>
   </table>
 </template>
@@ -15,17 +15,17 @@ export default {
   name: "About",
   data() {
     return {
-      forecasts: []
+      users: []
       }
     },
     methods: {
-      getWeatherForecasts() {
+      getUsers() {
         axios.get('https://localhost:44308/api/users')
-        .then((response) => { this.forecasts =  response.data; }).catch(function (error) { alert(error); });
+        .then((response) => { this.users =  response.data; }).catch(function (error) { alert(error); });
       }
     },
     mounted() {
-      this.getWeatherForecasts();
+      this.getUsers();
     }
   }
 </script>
