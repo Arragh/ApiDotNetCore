@@ -46,12 +46,12 @@ namespace ApiDotNetCore.Controllers
         [HttpPost]
         public ActionResult<User> Post(User user)
         {
-            if (user != null)
+            if (user != null && ModelState.IsValid)
             {
                 repository.AddUser(user);
                 return Ok(user);
             }
-            return BadRequest();
+            return BadRequest(user);
         }
 
         // PUT api/users
